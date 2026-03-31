@@ -5,7 +5,7 @@ function App() {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
 
-  const API_KEY = "7eaf2a384f9a3ef39f775eb0145c796"; 
+  const API_KEY = "7eaf2a3184f9a3ef39f775eb0145c796"; 
 
   const fetchWeather = () => {
     if (!city) return;
@@ -14,10 +14,24 @@ function App() {
       .then((data) => setWeather(data))
       .catch((err) => console.error(err));
   };
+  const getBackground = () => {
+  if (!weather) return "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"; // Default Purple
+
+  const condition = weather.weather[0].main;
+
+  if (condition === "Clear") return "linear-gradient(135deg, #fcebad 0%, #f7d486 100%)"; // Sunny/Yellow
+  if (condition === "Clouds") return "linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%)"; // Cloudy/Grey
+  if (condition === "Rain") return "linear-gradient(135deg, #4b6cb7 0%, #182848 100%)"; // Rainy/Blue
+  if (condition === "Snow") return "linear-gradient(135deg, #e6e9f0 0%, #eef1f5 100%)"; // Snow/White
+  
+  return "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"; // Default
+};
 
   return (
-    <div className="container">
+    <div style={{background: getBackground() ,minHeight: "100vh",transition:'0.5s',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+    
       <h1>Weather App</h1>
+
       <div className="input-box">
         <input 
           type="text" 
